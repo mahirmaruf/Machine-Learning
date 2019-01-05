@@ -55,6 +55,8 @@ initial_theta = zeros(n+1, 1);
 % Options for fmincg
 options = optimset('GradObj', 'on', 'MaxIter' 50);
 
+% Using this to test Git
+
 for c = 1:num_labels
   all_theta(c,:)
 
