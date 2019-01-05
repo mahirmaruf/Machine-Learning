@@ -37,14 +37,20 @@ grad = zeros(size(theta));
 %
 
 
+% Hypothesis
 z = X * theta;
 hx = sigmoid(z);
 
+% Regulaization term for the cost 
 reg = (lambda / (2*m)) * sum(theta(2:end) .^ 2);
 
+
+%%% Function outputs %%%
+
+% Output = cost 
 J = (1/m) * sum( (-y .* log(hx)) - ( (1-y) .* log(1-hx) ) ) + reg;
 
-
+% Output = gradient
 grad(1) = (1/m) * (X(: , 1)' * (hx - y));
 grad(2:end) = (1/m) * (X(:, 2:end)' * (hx - y)) + ((lambda/m) * theta(2:end));
 
