@@ -49,10 +49,14 @@ X = [ones(m, 1) X];
 %                 initial_theta, options);
 %
 
+% Initial theta, size is number pixels +1 x 1
+initial_theta = zeros(n+1, 1);
 
+% Options for fmincg
+options = optimset('GradObj', 'on', 'MaxIter' 50);
 
-
-
+for c = 1:num_labels
+  all_theta(c,:)
 
 
 
