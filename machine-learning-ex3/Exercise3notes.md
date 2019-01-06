@@ -94,7 +94,23 @@ Here we will define `m` as a 5000, which is the number of examples in `X`. Then 
 
 Our output, `p`, is going to be the predicted letter for each example. So this is a vector of 5000 elements. 
 
-Now that we have defined and initialized the variables, we can start the prediction. So the first thing that we have to do is add the "place holder" to X. Recall that X is a 
+Now that we have defined and initialized the variables, we can start the prediction. So the first thing that we have to do is add the "place holder" to X. Recall that X is a [5000 x 400] matrix. We can add a column of 1s in the beginnin with the code `X = [ones(m, 1) X]`
+
+The actual calculation is actually pretty easy. But the understanding is a little difficult. We'll go through both though. 
+
+We will define `z` as `X` multiplied by `all_theta'`. Again `X` is [5000 x 401] and transposed `all_theta` is [401 x 10]. So `z` becomes a [5000 x 10] matrix. Then we take the sigmoid of each element with the `sigmoid.m` function. 
+
+What does this represent? This is the "probability" of each example belonging to *k* for each $\theta_k$. So each example has 10 probabilities. What have done is written a hypothesis, $h_\theta(x)$, for each $\theta_k$ and applied it to each example. That means each example has *k* number of probabilities in the rows.
+
+What is interesting is that the index of highest probability represents the predicted number. So if the 3rd index for that example has the highest probability, the predicted *k* is 3. That means we need to extract the index for each example. 
+
+We can use the  in-built `max()` function to do this. When 2 outputs are extracted from `max()`, the first output, which we defined as `prob` is the highest probability, and the second output, `p`, is the index (which is also the predicted number!).
+
+The first argument of `max()` is the matrix or vector to find the maximum of. `A` in this case. Apparently to return maximum of the row, the second argument is blank, and `2` is the third argument. 
+
+Now we have `p`! This is a vector of 5000 elements that has the predicted value.
+
+### 2 Neural Networks
 
 
 
