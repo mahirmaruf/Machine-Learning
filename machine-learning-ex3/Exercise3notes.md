@@ -20,7 +20,7 @@ Check the notes for Exercise 2 for a more detailed explanation of this function.
 
 Now that we have programmed this function, we can move on to the next part. 
 
-#### 1.4 Once vs all Classification
+#### 1.4 One vs all Classification
 
 This gets a little dicey. In this part of the assignment, we will use the `oneVsAll.m` file. The only output of this function is `all_theta` which is contains the parameters, $\theta$, for each pixel for each number label. There are 10 number labels (0-9) and each observation have 400 features. Thus this is a [10 x 401] matrix (k x n+1). 
 
@@ -84,7 +84,17 @@ What will this return for us? It will give us 10 [401 x1] matrices, one for each
 
 When we run `ex3.m`, it will give us the cost for each k at 50 iterations. 
 
-***
+##### 1.4.1 One-vs-all Prediction
+
+Now that we have calculated the optimum set of parameters for each letter in *k*, we can apply these parameters to our dataset and see how well our parameters predict the letters in our data. Since the parameters were trained on this dataset, it should be pretty accurte. 
+
+We will use the `predictOneVsAll.m` file. This creates a function whose output is `p` and inputs are `all_theta` (which we optimized previously) and `X`. 
+
+Here we will define `m` as a 5000, which is the number of examples in `X`. Then we define `num_labels` as the number of of rows in `all_theta` (which is 10).
+
+Our output, `p`, is going to be the predicted letter for each example. So this is a vector of 5000 elements. 
+
+Now that we have defined and initialized the variables, we can start the prediction. So the first thing that we have to do is add the "place holder" to X. Recall that X is a 
 
 
 
