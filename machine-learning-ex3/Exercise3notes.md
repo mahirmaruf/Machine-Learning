@@ -84,6 +84,8 @@ What will this return for us? It will give us 10 [401 x1] matrices, one for each
 
 When we run `ex3.m`, it will give us the cost for each k at 50 iterations. 
 
+***
+
 
 
 
