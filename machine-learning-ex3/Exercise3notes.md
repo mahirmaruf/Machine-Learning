@@ -56,7 +56,6 @@ Lets take an example. Say we have a single observation of the unrolled pixels of
 The problem is that the y is not "yes" or "no". In this example, the y are the labels in the *k*, so they are numbers from 0-9. This won't work for logistic regression. So how will we have a binary y? And moreover, how will we have a different binary y for each value of *k*? 
 
 Here is where the `for` loop comes in. 
-***
 
 Let's break this seamingly simple code down:
 ```
