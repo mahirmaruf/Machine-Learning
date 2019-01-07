@@ -112,6 +112,36 @@ Now we have `p`! This is a vector of 5000 elements that has the predicted value.
 
 ### 2 Neural Networks
 
+In this exercise, we will use the `ex3_nn.m`, and load the data `ex3weights.mat`. 
+
+Be sure to look at Figure 2 in the pdf. That is going to help a lot. Here, we are going to use the `predict.m` file. And just like the last section, we are going to predict the number in *k* for each example. But instead of doing a 1 vs all logistic regression we will use a neural network. So already, we don't need 10 sets of $\theta$s. 
+
+For this example, we also don't need to calculate the the theta like we had to do for the last part. The $\Theta$ are already supplied to us in `Theta1` and `Theta2`. 
+
+Lets define what we know:  
+m = 5000  
+num_labels = 10  
+X = [5000 x 401]  
+Theta1 = [25 x 401]  
+Theta2 = [5000 x 401]  
+
+The first thing we need to do is as the bias to our input layer. This is the same as adding a column of 1s: `X = [ones(m,1) X]`. And remember that we can also call our input layer a1.
+
+That means our second layer, the hidden layer is $a^{(2)}$. How do we go from one layer to the next? Its actually pretty simple, its essentially a logistic regression of the of the prior layer and $\Theta$s. 
+
+So `z2` will be `X * Theta1'`  
+This is a [5000 x 401] x [401 x 25] multiplication. This hidden layer has 25 nodes. The resultant `z2` is **[5000 x 25]**. And now we take *g($z^{(2)}$)* to get $a^{(2)}$ (using the sigmoid function). 
+
+But now we add the bias layer to $a^{(2)}$, just like we did with X:
+`a2 = [ones(m,1) a2]`.
+
+Ok now we can work on the output layer. We know that $z^{(3)}$ = $\Theta^{(2)}$$a^{(2)}$. And we have $\Theta^{(2)}$ and $a^{(2)}$! 
+
+So we use the code: `z3 = a2 * Theta2'` to get $z^{(3)}$, then get the sigmoid of that to get $a^{(3)}$. This results in a [5000 x 10] matrix. 
+
+Now, just like the last example, we can use the `max()` function to determine the location of the maximum hypothesis. 
+
+Thats it!
 
 
 
