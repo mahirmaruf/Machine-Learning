@@ -123,7 +123,7 @@ m = 5000
 num_labels = 10  
 X = [5000 x 401]  
 Theta1 = [25 x 401]  
-Theta2 = [5000 x 401]  
+Theta2 = [5000 x 10]  
 
 The first thing we need to do is as the bias to our input layer. This is the same as adding a column of 1s: `X = [ones(m,1) X]`. And remember that we can also call our input layer a1.
 
