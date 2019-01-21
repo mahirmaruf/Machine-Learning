@@ -63,15 +63,102 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+%%%% Part 1 - calculating J %%%%
+
+% Adding the bias 1 to X
+X = [ones(size(X,1),1)  X];
+
+% Hypotheses Layer 1
+z2 = X * Theta1';
+a2 = sigmoid(z2);
+
+a2 = [ones(size(a2, 1),1)  a2];
+
+% Hypothesis Layer 2
+z3 = a2 * Theta2';
+a3 = sigmoid(z3);
+
+hx = a3;
+
+%%% Cost function of the neural network
+% binary labels for each number output of y 
+y_label = (1:num_labels) == y; % creates a 5000 x 10 matrix with the label 1 as the index
+
+% Cost function
+J = (-1/m) * sum(sum( y_label .* log(hx) + ((1-y_label) .* log(1-hx))));
+
+% Cost function with regularization
+J = (-1/m) * sum(sum( y_label .* log(hx) + ((1-y_label) .* log(1-hx)))) + ... 
+(lambda/(2*m)) * (sum(sum(Theta1(:,2:end) .^2)) + sum(sum(Theta2(:,2:end) .^2 )));
 
 
+% ------------------------------------------------------------------------------------------
+%%%% Part 2 - Backpropogation %%%%
 
+%%% Trying it with a for loop - but difficult to conceptualize
+%for t = 1:m 
+%  % ---------------------------------------
+%  %%% Forward prop for each example 
+%  % Layer 1
+%  a1 = X(t, :); % [1 x 401]
+%  a1 = a1'; % Now [401 x 1]
+%  % Layer 2
+%  z2 = Theta1 * a1; % [25 x 401] * [401 x 1] = [25 x 1]
+%  a2 = sigmoid(z2);
+%  a2 = [1; a2]; % Add bias, [26 x 1]
+%  % Layer 3
+%  z3 = Theta2 * a2; % [10 x 26] * [26 x 1]
+%  a3 = sigmoid(z3); % [10 x 1]
+%  % ---------------------------------------
+%  %%% Binary values for Y
+%  y_label = y(t) == (1:num_labels); % [1 x 10] (because its for each example)
+%  y_label = y_label'; % Now [10 x 1]
+%  % ---------------------------------------
+%  %%% Calculating deltas
+%  % Lower case deltas for each layer
+%  delta3 = a3 - y_label; % [10x1] - [10x1];
+%  delta2 = Theta2' * delta3 .* sigmoidGradient([1; z2]); % ([26 x 10] * [10 x 1]) .* [26 x 1]
+%  delta2 = delta2(2:end); % Now [25 x 1]
+%  % Upper case deltas (Gradient)
+%  Theta1_grad = Theta1_grad + delta2 * a1'; % [25 x 401] + [25 x 1] * [1 x 401] = [25 x 401]
+%  Theta2_grad = Theta2_grad + delta3 * a2'; % [10 x 26] + [10 x 1] * [1 x 26] = [10 x 26]
+%  
+%end  
 
+%Theta1_grad = (1/m) * Theta1_grad;
+%Theta2_grad = (1/m) * Theta2_grad;
 
+% ----------------------------------------------
+%%% Now trying it with a vectorized methods
 
+%%% Performing the forward propogation
+% Layer 1
+a1 = X; % already has Bias layer [5000 x 401] 
 
+% Layer 2
+z2 = X * Theta1'; % [5000 x 401] * [401 x 25] = [5000 x 25]
+a2 = sigmoid(z2);
 
+a2 = [ones(size(a2,1),1) a2]; % Adding bias, so [5000 x 26]
 
+% Layer 3
+z3 = a2 * Theta2'; % [5000 x 26] * [26 x 10] = [5000 x 10] 
+a3 = sigmoid(z3);
+
+% Converting the y from {0 to 9} label to a matrix with index as the label
+y_label = y == (1:num_labels); % [5000 x 1] --> [5000 x 10] 
+
+%%% CALCULATING THE LOWER CASE DELTAS
+
+delta3 = a3 - y_label; % [5000 x 10] - [5000 x 10] 
+
+delta2 = delta3 * Theta2 .* [ones(size(z2,1),1) z2]; % [5000 x 10] * [10 x 26] .* [5000 x 26]
+delta2 = delta2(:, 2:end); % Removes the first column of biases
+
+%%% CALCULATING THE UPPER CASE DELTAS (THE GRADIENTS)
+
+Theta1_grad = (1/m) * (delta2' * a1); % [25 x 5000] * [5000 x 401] = [25 x 401], same size as Theta1
+Theta2_grad = (1/m) * (delta3' * a2); % [10 x 5000]  * [5000 x 26] = 10 x 26], same as Theta2 
 
 
 
