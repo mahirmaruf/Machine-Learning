@@ -151,7 +151,21 @@ What is this doing? Well this adjusts each parameter based on sigmoid activation
 
 By itself, `sigmoidGradient(z2)` will provide a [5000x25] matrix, but we use `ones(size(z2,1),1)` to add ones, making a [5000x26] matrix. So we can use it in the element-wise multiplation.  
 
+**Using $\delta^{(2)}$ to calulate the gradients of $\Theta^{(1)}$**  
 Then we need to remove the first column of bias  
 `delta2 = delta2(:, 2:end);`
 
 Now there is no error for the first layer because inputs don't have errors.  
+
+Lets talk about what we are doing. `delta2` or $\delta^{(2)}$ is the error of each of the 5000 training examples along each of the 25 nodes in the hidden layer. We multiply this by activation of the previous layer (which is just X in this case). The activation of the previous layer is the brightness of each pixel for each 5000 examples. 
+
+If we mulitply the error of layer 2 by the activations in layer 1, we get the gradient of $\Theta^{(1)}$
+
+Here's the code:  
+`Theta1_grad = (1/m) * (delta2' * a1);`
+`delta2` is a [5000x25] matrix because it is the error for each example at each node. And we inverse that to get [25x5000]  
+`a1` is just `X`. Thats a [5000x401] matrix. 
+
+When we multiply `delta2` [25x5000] by `a1` [5000x401] we get a [25x401] matrix of the gradients for $\Theta^{(1)}$. Notice this matrix is the same size at `Theta1` too!
+
+ **Using $\delta^{(3)}$ to calulate the gradients of $\Theta^{(2)}$**
