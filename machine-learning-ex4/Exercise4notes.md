@@ -113,7 +113,7 @@ And `Theta2 is initialized like this:
 
 This way, a [25x401] matrix of random numbers is created for `initial_Theta1` and [10x26] matrix of random numbers is created for `initial_Theta2`.  
 
-##### 2.3 baclpropogation 
+##### 2.3 back propogation 
 ##### Part 2 of nnCostFunction - Backpropogation  
 Likely unnecesary, but for the first few lines, I rewrote the forward propogation code to get `a3`, the activation of the output layer. Recall that this is a [5000x10] matrix, and represents the activation of each example for each of the output nodes (labels of 0-9).
 
@@ -168,4 +168,15 @@ Here's the code:
 
 When we multiply `delta2` [25x5000] by `a1` [5000x401] we get a [25x401] matrix of the gradients for $\Theta^{(1)}$. Notice this matrix is the same size at `Theta1` too!
 
- **Using $\delta^{(3)}$ to calulate the gradients of $\Theta^{(2)}$**
+ **Using $\delta^{(3)}$ to calulate the gradients of $\Theta^{(2)}$**  
+To calculate the *gradients* of $\Theta^{(2)}$, `Theta2_grad`, we essentially do the same thing. Here's the formula: `Theta2_grad = (1/m) * (delta3' * a2);`  
+
+Remember that `delta3` is [5000x10],so we need to inverse it. And `a2` is a [5000x26] matrix, so `delta3 * a2` is a [10x5000]x[5000x26] matrix multiplication, resulting in a `Theta2_grad` that is [10x26], exactly the dimensions of `Theta2`
+
+##### Part 3 of nnCostFunction - Backpropogation  with regularization
+
+This part is actually pretty easy. Just remember that the first term is not regularized. So we only need to regularize everything byt the first column. 
+
+With this line of code:
+`Theta1_grad(:,2:end) = Theta1_grad(:,2:end) + ((lambda/m) * Theta1(:,2:end));`  
+We are adding the $\lambda/m * \Theta_1$ to all the gradients except the first column. 
