@@ -24,8 +24,8 @@ sigma = 0.3;
 %
 
 % Creating multiplicative steps for C and sigma
-C_step = [0.01 0.03 0.1 0.3 1 3 10 30];
-sigma_step = [0.01 0.03 0.1 0.3 1 3 10 30];
+C_step = [0.01 0.03 0.1 0.3 1 3 10 30]';
+sigma_step = [0.01 0.03 0.1 0.3 1 3 10 30]';
 
 preds_error = zeros( length(C_step), length(sigma_step) );
 
@@ -49,7 +49,7 @@ for c_i = 1:length(C_step)
         preds_error(c_i,s_i) = mean( double( preds ~= yval));
         
         % Error for each C and sigma combination
-        output_c_sigma(1,:) = [preds_error(c_i,s_i), cTest, sigmaTest];
+        output_c_sigma(row,:) = [preds_error(c_i,s_i), cTest, sigmaTest];
         
         row = row + 1; 
     end
