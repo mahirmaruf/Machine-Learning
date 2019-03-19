@@ -21,10 +21,14 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
-
-
-
-
+for i = 1:size(X,1)
+    holding = zeros(K,1);
+    
+    for j = 1:K
+        holding(j) = sqrt(sum((X(i,:) - centroids(j,:)) .^2));
+    end
+    [~,idx(i)] = min(holding);
+end
 
 
 % =============================================================
