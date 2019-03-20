@@ -21,7 +21,17 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
-
+% Initialize centroids
+centroids = kMeansInitCentroids(X, K);
+for iter = 1:iterations
+% Cluster assignment step: Assign each data point to the
+% closest centroid. idx(i) corresponds to c?(i), the index
+% of the centroid assigned to example i
+idx = findClosestCentroids(X, centroids);
+% Move centroid step: Compute means based on centroid
+% assignments
+centroids = computeMeans(X, idx, K);
+end
 
 
 
